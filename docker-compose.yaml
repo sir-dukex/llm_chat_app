@@ -1,0 +1,43 @@
+services:
+  db:
+    image: ankane/pgvector:latest
+    container_name: llm-chat-app-pgvector
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: llm_chat_app
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  jupyter:
+    build:
+      context: .
+    image: llm-chat-app-notebook
+    container_name: llm-chat-app-notebook
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./:/app
+    depends_on:
+      db:
+        condition: service_healthy
+    command: jupyter lab --ip=0.0.0.0 --no-browser --allow-root
+  streamlit:
+    build:
+      context: .
+    image: llm-chat-app-streamlit
+    container_name: llm-chat-app-streamlit
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./:/app
+    depends_on:
+      db:
+        condition: service_healthy
+    command: streamlit run /app/app.py --server.port=8501 --server.address=0.0.0.0

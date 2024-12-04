@@ -1,0 +1,18 @@
+[
+    {
+        "role": "user",
+        "content": "こんにちは！"
+    },
+    {
+        "role": "assistant",
+        "content": "こんにちは、何かお手伝い必要ですか？"
+    },
+    {
+        "role": "user",
+        "content": "君には何もできないよ"
+    },
+    {
+        "role": "assistant",
+        "content": "そんな悲しいこと言わないでください"
+    }
+]

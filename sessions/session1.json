@@ -1,0 +1,10 @@
+[
+    {
+        "role": "user",
+        "content": "にゃんにゃんにゃん"
+    },
+    {
+        "role": "assistant",
+        "content": "ねこです"
+    }
+]
